@@ -101,6 +101,10 @@ export function transformMessage(): string {
   return msg;
 }
 ```
+## Container
+
+Download the 3.10 linux file from here and colocate in this directory for building https://mirthdownloadarchive.s3.amazonaws.com/connect-downloads.html?prefix=connect/3.1.0.7420.b1421/
+
 
 ## Testing Your Channel
 

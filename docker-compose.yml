@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  mirthconnect:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8443:8443"
+      - "8080:8080"
+    volumes:
+      - mirth-appdata:/opt/mirthconnect/appdata
+      - mirth-custom-extensions:/opt/mirthconnect/custom-extensions
+    environment:
+      - DATABASE=mysql
+      - DATABASE_URL=jdbc:mysql://db:3306/mirthdb?useSSL=false
+      - DATABASE_USERNAME=mirth
+      - DATABASE_PASSWORD=mirthpassword
+      - DATABASE_MAX_CONNECTIONS=20
+      - DATABASE_MAX_RETRY=3
+      - DATABASE_RETRY_WAIT=10000
+      - VMOPTIONS=-Xmx512m
+    restart: unless-stopped
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  db:
+    image: mariadb:10.5
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=mirthdb
+      - MYSQL_USER=mirth
+      - MYSQL_PASSWORD=mirthpassword
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mirth-appdata:
+  mirth-custom-extensions:
+  db-data:
