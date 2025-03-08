@@ -103,6 +103,10 @@ export function transformMessage(): string {
 ```
 ## Container
 
+1. `docker-compose build`
+2. `docker-compose up`
+
+
 Download the 3.10 linux file from here and colocate in this directory for building https://mirthdownloadarchive.s3.amazonaws.com/connect-downloads.html?prefix=connect/3.1.0.7420.b1421/
 
 
