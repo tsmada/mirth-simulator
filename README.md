@@ -112,6 +112,13 @@ export function transformMessage(): string {
 1. `kubectl apply -f k8s/local`
 * Note: download K8s lens if you're more comfortable interacting with kubernetes resources in a GUI https://k8slens.dev/download
 
+### Building mirthconnect image for k8s
+```
+$ brew install lima
+$ limactl start
+$ lima nerdctl --namespace k8s.io build -t mirth-node-runtime-mirthconnect:latest .
+```
+
 
 Download the 3.10 linux file from here and colocate in this directory for building https://mirthdownloadarchive.s3.amazonaws.com/connect-downloads.html?prefix=connect/3.1.0.7420.b1421/
 

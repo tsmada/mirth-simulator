@@ -41,7 +41,8 @@ spec:
               value: mirth
             - name: VMOPTIONS
               value: -Xmx512m
-          image: mirthconnect
+          image: localhost:5000/mirth-node-runtime-mirthconnect:latest
+          imagePullPolicy: Always
           livenessProbe:
             exec:
               command:

@@ -51,6 +51,7 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
           name: db
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3306
               protocol: TCP
