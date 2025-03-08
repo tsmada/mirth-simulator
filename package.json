@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
+    "build:channels": "ts-node scripts/build-channels.ts",
     "dev": "ts-node scripts/cli.ts dev",
     "cli": "ts-node scripts/cli.ts"
   },

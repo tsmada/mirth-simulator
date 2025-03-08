@@ -1,0 +1,24 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "es5",
+    "module": "none",
+    "lib": ["es5"],
+    "outDir": "./dist/channels",
+    "rootDir": "./src/channels",
+    "removeComments": true,
+    "noEmitHelpers": true,
+    "importHelpers": false,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "allowJs": false,
+    "declaration": false,
+    "sourceMap": false
+  },
+  "include": ["src/channels/**/*"],
+  "exclude": ["node_modules", "**/*.test.ts"]
+} 
