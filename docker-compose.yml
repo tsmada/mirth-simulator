@@ -8,6 +8,7 @@ services:
     ports:
       - "8443:8443"
       - "8080:8080"
+      - "6661:6661"
     volumes:
       - mirth-appdata:/opt/mirthconnect/appdata
       - mirth-custom-extensions:/opt/mirthconnect/custom-extensions
