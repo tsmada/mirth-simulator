@@ -11,6 +11,7 @@ A modern development environment for Mirth Connect channel scripts, allowing you
 - 🛠️ HL7 message processing utilities
 - 📝 MLLP (Minimal Lower Layer Protocol) support
 - ✅ Proper acknowledgment (ACK) generation
+- 💻 Containerized Mirth for comparing and deploying compiled code
 
 ## Installation
 
