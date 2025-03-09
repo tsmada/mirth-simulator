@@ -11,6 +11,7 @@ A modern development environment for Mirth Connect channel scripts, allowing you
 - 🛠️ HL7 message processing utilities
 - 📝 MLLP (Minimal Lower Layer Protocol) support
 - ✅ Proper acknowledgment (ACK) generation
+- 💻 Containerized Mirth for comparing and deploying compiled code
 
 ## Installation
 
@@ -101,6 +102,14 @@ export function transformMessage(): string {
   return msg;
 }
 ```
+## Container
+
+1. `docker-compose build`
+2. `docker-compose up`
+
+
+Download the 3.10 linux file from here and colocate in this directory for building https://mirthdownloadarchive.s3.amazonaws.com/connect-downloads.html?prefix=connect/3.1.0.7420.b1421/
+
 
 ## Testing Your Channel
 
