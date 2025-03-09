@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: mirth
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.35.0 (HEAD)
+  labels:
+    io.kompose.service: mirthconnect
+  name: mirthconnect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mirthconnect
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.35.0 (HEAD)
+      labels:
+        io.kompose.service: mirthconnect
+    spec:
+      containers:
+        - env:
+            - name: DATABASE
+              value: mysql
+            - name: DATABASE_MAX_CONNECTIONS
+              value: "20"
+            - name: DATABASE_MAX_RETRY
+              value: "3"
+            - name: DATABASE_PASSWORD
+              value: mirthpassword
+            - name: DATABASE_RETRY_WAIT
+              value: "10000"
+            - name: DATABASE_URL
+              value: jdbc:mysql://db:3306/mirthdb?useSSL=false
+            - name: DATABASE_USERNAME
+              value: mirth
+            - name: VMOPTIONS
+              value: -Xmx512m
+          image: localhost:5000/mirth-node-runtime-mirthconnect:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - -f
+                - http://localhost:8080/api
+            failureThreshold: 3
+            initialDelaySeconds: 40
+            periodSeconds: 30
+            timeoutSeconds: 10
+          name: mirthconnect
+          ports:
+            - containerPort: 8443
+              protocol: TCP
+            - containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /opt/mirthconnect/appdata
+              name: mirth-appdata
+            - mountPath: /opt/mirthconnect/custom-extensions
+              name: mirth-custom-extensions
+      restartPolicy: Always
+      volumes:
+        - name: mirth-appdata
+          persistentVolumeClaim:
+            claimName: mirth-appdata
+        - name: mirth-custom-extensions
+          persistentVolumeClaim:
+            claimName: mirth-custom-extensions

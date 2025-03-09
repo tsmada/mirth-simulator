@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: local-registry-hosting
+  namespace: kube-public
+data:
+  localRegistryHosting.v1: |
+    host: "http://localhost:5000"
+    help: "https://rancher.com/docs/rancher/v2.x/en/installation/other-installation-methods/behind-proxy/containerd-registry/"
+    skipVerify: true
