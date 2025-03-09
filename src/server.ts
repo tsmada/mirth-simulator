@@ -78,12 +78,31 @@ export class HL7Server {
     console.log(message.replace(/\r/g, '\n'));
     
     try {
+      // Show initial state
+      console.log('\nInitial channel maps:');
+      const initialState = this.simulator.getState();
+      console.log('Global Map:', this.formatMapValues(initialState.maps['globalMap']));
+      console.log('Channel Map:', this.formatMapValues(initialState.maps['channelMap']));
+      
       // Run the filter
       const filterResult = this.simulator.executeScript(this.filterScript, { msg: message });
+      
+      // Show state after filter
+      console.log('\nAfter filter:');
+      const filterState = this.simulator.getState();
+      console.log('Global Map:', this.formatMapValues(filterState.maps['globalMap']));
+      console.log('Channel Map:', this.formatMapValues(filterState.maps['channelMap']));
+      console.log('Filter Result:', filterResult);
       
       if (filterResult) {
         // If message passes filter, run the transformer
         const transformResult = this.simulator.executeScript(this.transformerScript, { msg: message });
+        
+        // Show final state
+        console.log('\nAfter transform:');
+        const finalState = this.simulator.getState();
+        console.log('Global Map:', this.formatMapValues(finalState.maps['globalMap']));
+        console.log('Channel Map:', this.formatMapValues(finalState.maps['channelMap']));
         
         console.log('\nTransformed message:');
         console.log(transformResult.replace(/\r/g, '\n'));
@@ -101,6 +120,15 @@ export class HL7Server {
       const ack = this.generateACK(message, 'AE', 'Error processing message');
       this.sendResponse(socket, ack);
     }
+  }
+
+  private formatMapValues(values: any[] | undefined): string {
+    if (!values || !Array.isArray(values)) return '{}';
+    const obj: { [key: string]: any } = {};
+    for (let i = 0; i < values.length; i += 2) {
+      obj[values[i]] = values[i + 1];
+    }
+    return JSON.stringify(obj, null, 2);
   }
 
   private generateACK(message: string, code: string, text: string): string {
